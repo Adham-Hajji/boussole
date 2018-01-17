@@ -23,11 +23,16 @@ float obtenirAngleYawn (NineAxesMotion &capteur);
 float obtenirAngleRoll (NineAxesMotion &capteur);
 
 // Traitement
+void initialiserArduino ();
 void initialiserCapteur (NineAxesMotion &capteur);
 void initialiserEcran (Adafruit_RGBLCDShield &ecran);
+String determinerDirectionPitch (float anglePitch);
 
 // Affichage
 void afficherTexteCentre (Adafruit_RGBLCDShield &ecran, const byte &ligne, const String &texte);
+void afficherDemarrage (Adafruit_RGBLCDShield &ecran);
+void afficherMenu (Adafruit_RGBLCDShield &ecran);
+void afficherModeStandard (Adafruit_RGBLCDShield &ecran);
 
 
 #endif
