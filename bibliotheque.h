@@ -16,9 +16,9 @@
 
 // Flèches
 #define FLECHE_NORD 0
-#define FLECHE_SUD 3
-#define FLECHE_OUEST 1
-#define FLECHE_EST 2
+#define FLECHE_SUD 1
+#define FLECHE_OUEST 2
+#define FLECHE_EST 3
 #define FLECHE_NORD_OUEST 4
 #define FLECHE_NORD_EST 5
 #define FLECHE_SUD_OUEST 6
