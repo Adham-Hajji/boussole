@@ -1,6 +1,6 @@
 #include "bibliotheque.h"
 
-/* Variables */
+
 
 NineAxesMotion capteur;                                // objet associé au capteur
 Adafruit_RGBLCDShield ecran = Adafruit_RGBLCDShield (); // objet associé à l'écran ecran
@@ -14,10 +14,10 @@ String directionActuelle,                             // variable stockant la di
 
 void setup ()
 {
-  initialiserArduino ();
-  initialiserCapteur (capteur);
-  initialiserEcran (ecran);
+  initialiserArduino (capteur, ecran);
+  initialiserCaracteres (ecran);
   afficherDemarrage (ecran);
+  afficherMenu (ecran);
 }
 
 

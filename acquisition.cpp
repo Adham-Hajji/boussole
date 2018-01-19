@@ -7,17 +7,13 @@ float obtenirAnglePitch (NineAxesMotion &capteur) // (x, y)
   return atan2 (magY, magX);
 }
 
-float obtenirAngleYawn (NineAxesMotion &capteur) // (x, z)
+float obtenirAngleYawn (NineAxesMotion &capteur) // (x, y, z)
 {
  float magX = capteur.readMagX ();
+ float magY = capteur.readMagY ();
  float magZ = capteur.readMagZ ();
  return atan2 (magZ, magX);
 }
 
-float obtenirAngleRoll (NineAxesMotion &capteur) // (y, z)
-{
-  float magY = capteur.readMagY ();
-  float magZ = capteur.readMagZ ();
-  return atan2 (magZ, magY);
-}
+
 
