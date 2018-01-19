@@ -1,5 +1,13 @@
 #include "bibliotheque.h"
 
+
+/* Variables */
+
+
+
+
+/* Fonctions */
+
 /**
  * Cette fonction affiche du texte centrée sur l'écran ecran
  * @param ecran L'objet représentant l'écran LCD
@@ -35,13 +43,19 @@ void afficherDemarrage (Adafruit_RGBLCDShield &ecran)
  */
 void afficherMenu (Adafruit_RGBLCDShield &ecran)
 {
-  
+  ecran.setCursor (1, 1);
+  ecran.write (byte (FLECHE_HAUTE));
+  ecran.write (byte (FLECHE_BASSE));
+  ecran.write (byte (FLECHE_GAUCHE));
+  ecran.write (byte (FLECHE_DROITE));
 }
+
+
 
 /**
  * Cette fonction affiche le mode standard de la boussole sur l'écran
  * @param ecran L'objet représentant l'écran LCD
- */
+ *
 void afficherModeStandard (Adafruit_RGBLCDShield &ecran)
 {
     // Effectuer les actions de rafraîchissement de l'écran ecran
@@ -80,4 +94,4 @@ void afficherModeStandard (Adafruit_RGBLCDShield &ecran)
     }
   }
 }
-
+*/

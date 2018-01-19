@@ -14,6 +14,12 @@
 #define DUREE_PERIODE 500
 #define MODE_CAPTEUR MANUAL
 
+// Flèches
+#define FLECHE_HAUTE 0
+#define FLECHE_BASSE 3
+#define FLECHE_GAUCHE 1
+#define FLECHE_DROITE 2
+
 
 /* Prototypes */
 
@@ -23,9 +29,8 @@ float obtenirAngleYawn (NineAxesMotion &capteur);
 float obtenirAngleRoll (NineAxesMotion &capteur);
 
 // Traitement
-void initialiserArduino ();
-void initialiserCapteur (NineAxesMotion &capteur);
-void initialiserEcran (Adafruit_RGBLCDShield &ecran);
+void initialiserArduino (NineAxesMotion &capteur, Adafruit_RGBLCDShield &ecran);
+void initialiserCaracteres (Adafruit_RGBLCDShield &ecran);
 String determinerDirectionPitch (float anglePitch);
 
 // Affichage
