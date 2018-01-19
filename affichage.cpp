@@ -43,11 +43,12 @@ void afficherDemarrage (Adafruit_RGBLCDShield &ecran)
  */
 void afficherMenu (Adafruit_RGBLCDShield &ecran)
 {
-  ecran.setCursor (1, 1);
-  ecran.write (byte (FLECHE_HAUTE));
-  ecran.write (byte (FLECHE_BASSE));
-  ecran.write (byte (FLECHE_GAUCHE));
-  ecran.write (byte (FLECHE_DROITE));
+  ecran.setCursor (0, 0);
+  ecran.write (byte (FLECHE_NORD));
+  ecran.print (" Mode standard");
+  ecran.setCursor (0, 1);
+  ecran.write (byte (FLECHE_SUD));
+  ecran.print (" Mode ludique");
 }
 
 

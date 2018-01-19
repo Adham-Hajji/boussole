@@ -15,10 +15,14 @@
 #define MODE_CAPTEUR MANUAL
 
 // Flèches
-#define FLECHE_HAUTE 0
-#define FLECHE_BASSE 3
-#define FLECHE_GAUCHE 1
-#define FLECHE_DROITE 2
+#define FLECHE_NORD 0
+#define FLECHE_SUD 3
+#define FLECHE_OUEST 1
+#define FLECHE_EST 2
+#define FLECHE_NORD_OUEST 4
+#define FLECHE_NORD_EST 5
+#define FLECHE_SUD_OUEST 6
+#define FLECHE_SUD_EST 7
 
 
 /* Prototypes */
