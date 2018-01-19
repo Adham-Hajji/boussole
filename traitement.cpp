@@ -1,4 +1,4 @@
-#include "bibliotheque.h"
+﻿#include "bibliotheque.h"
 
 /*
  * Cette fonction initialise les composants de la carte Arduino
@@ -28,9 +28,9 @@ void initialiserCaracteres (Adafruit_RGBLCDShield &ecran)
   byte fleches [8][8] =
   {
     {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000}, // flèche nord
+    {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
     {B00000, B00100, B01100, B11111, B01100, B00100, B00000, B00000}, // flèche ouest
     {B00000, B00100, B00110, B11111, B00110, B00100, B00000, B00000}, // flèche est
-    {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
     {B11100, B11000, B10100, B00010, B00001, B00000, B00000, B00000}, // flèche du nord-ouest
     {B00111, B00011, B00101, B01000, B10000, B00000, B00000, B00000}, // flèche du nord-est
     {B00000, B00000, B00000, B00001, B00010, B10100, B11000, B11100}, // flèche du sud-ouest
