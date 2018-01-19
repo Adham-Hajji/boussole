@@ -14,10 +14,10 @@ String directionActuelle,                             // variable stockant la di
 
 void setup ()
 {
-  initialiserArduino ();
-  initialiserCapteur (capteur);
-  initialiserEcran (ecran);
+  initialiserArduino (capteur, ecran);
+  initialiserCaracteres (ecran);
   afficherDemarrage (ecran);
+  afficherMenu (ecran);
 }
 
 
