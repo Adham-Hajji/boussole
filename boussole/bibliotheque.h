@@ -1,6 +1,7 @@
-﻿#ifndef BIBLIOTHEQUE_H
+#ifndef BIBLIOTHEQUE_H
 #define BIBLIOTHEQUE_H
 
+//------------------------------------------------------------------------------------//
 
 /* Librairies */
 
@@ -8,10 +9,28 @@
 #include <Wire.h>
 #include <Adafruit_RGBLCDShield.h>
 
+//------------------------------------------------------------------------------------//
+
+/* Interface des variables globales */
+
+// Variables d'état
+
+extern float gAngle;      // variable stockant l'angle actuel de la boussole
+extern String gDirection; // variable stockant la direction actuelle de la boussole
+extern byte gEtat;        // variable stockant l'état du programme
+extern byte gMode;        // variable stockant le mode actuel du programme
+
+// Composants
+
+extern NineAxesMotion gCapteur;      // objet associé au capteur
+extern Adafruit_RGBLCDShield gEcran; // objet associé à l'écran
+
+//------------------------------------------------------------------------------------//
 
 /* Macro constantes */
 
-#define DUREE_PERIODE 500
+// Paramètres
+#define DUREE_PERIODE 100
 #define MODE_CAPTEUR MANUAL
 
 // Flèches
@@ -24,24 +43,41 @@
 #define FLECHE_SUD_OUEST 6
 #define FLECHE_SUD_EST 7
 
+// Modes
+#define MODE_SELECTION 0
+#define MODE_STANDARD 1
+#define MODE_LUDIQUE 2
+
+// États du programme
+#define ETAT_INITIALISATION 0
+#define ETAT_SELECTION 1
+#define ETAT_MODE 2
+
+//------------------------------------------------------------------------------------//
 
 /* Prototypes */
 
 // Acquisition
-float obtenirAngle (NineAxesMotion &capteur);
+float obtenirAngle ();
+String obtenirDirection (float pAngle);
+byte obtenirFleche (String pDirection);
 
 // Traitement
-void initialiserArduino (NineAxesMotion &capteur, Adafruit_RGBLCDShield &ecran);
-void initialiserCaracteres (Adafruit_RGBLCDShield &ecran);
-void actualiserCapteur (NineAxesMotion &capteur);
-String determinerDirection (float angle);
-byte determinerFleche (String direction);
+void initialiserArduino ();
+void initialiserCaracteres ();
+void actualiserCapteur ();
+
+void procedureModeSelection ();
+void procedureModeStandard ();
+void procedureModeLudique ();
 
 // Affichage
-void afficherTexteCentre (Adafruit_RGBLCDShield &ecran, const byte &ligne, const String &texte);
-void afficherDemarrage (Adafruit_RGBLCDShield &ecran);
-void afficherMenu (Adafruit_RGBLCDShield &ecran);
-void afficherModeLudique (Adafruit_RGBLCDShield &ecran, String direction);
+void afficherTexteCentre (const byte &pLigne, const String &pTexte);
+void clearLine (const byte &pLigne);
 
+void afficherDemarrage ();
+void afficherMenu ();
+void afficherModeStandard (const float &pAngle, const String &pDirection);
+void afficherModeLudique (const String &pDirection, const byte &pFleche);
 
 #endif

@@ -1,31 +1,27 @@
-﻿#include "bibliotheque.h"
+#include "bibliotheque.h"
 
 /*
  * Cette fonction initialise les composants de la carte Arduino
- * @param capteur L'objet représentant le capteur
- * @param ecran L'objet représentant l'écran LCD
  */
-void initialiserArduino (NineAxesMotion &capteur, Adafruit_RGBLCDShield &ecran)
+void initialiserArduino ()
 {
-  Serial.begin (115200);
   I2C.begin ();
   
-  capteur.initSensor ();
-  capteur.setOperationMode (OPERATION_MODE_NDOF);
-  capteur.setUpdateMode (MODE_CAPTEUR);
+  gCapteur.initSensor ();
+  gCapteur.setOperationMode (OPERATION_MODE_NDOF);
+  gCapteur.setUpdateMode (MODE_CAPTEUR);
   
-  ecran.begin (16, 2);
-  ecran.noCursor ();
-  ecran.display ();
+  gEcran.begin (16, 2);
+  gEcran.noCursor ();
+  gEcran.display ();
 }
 
 /*
  * Cette fonction initialise les caractères personnalisées (flèches indiquant les touches ainsi que les directions)
- * @param ecran L'objet représentant l'écran LCD
  */
-void initialiserCaracteres (Adafruit_RGBLCDShield &ecran)
+void initialiserCaracteres ()
 {
-  byte fleches [8][8] =
+  byte lFleches [8][8] =
   {
     {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000}, // flèche nord
     {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
@@ -37,72 +33,98 @@ void initialiserCaracteres (Adafruit_RGBLCDShield &ecran)
     {B00000, B00000, B00000, B10000, B01000, B00101, B00011, B00111}  // flèche du sud-est
   };
 
-  ecran.createChar (FLECHE_NORD, fleches[0]);
-  ecran.createChar (FLECHE_SUD, fleches[1]);
-  ecran.createChar (FLECHE_OUEST, fleches[2]);
-  ecran.createChar (FLECHE_EST, fleches[3]);
-  ecran.createChar (FLECHE_NORD_OUEST, fleches[4]);
-  ecran.createChar (FLECHE_NORD_EST, fleches[5]);
-  ecran.createChar (FLECHE_SUD_OUEST, fleches[6]);
-  ecran.createChar (FLECHE_SUD_EST, fleches[7]);
+  gEcran.createChar (FLECHE_NORD, lFleches[0]);
+  gEcran.createChar (FLECHE_SUD, lFleches[1]);
+  gEcran.createChar (FLECHE_OUEST, lFleches[2]);
+  gEcran.createChar (FLECHE_EST, lFleches[3]);
+  gEcran.createChar (FLECHE_NORD_OUEST, lFleches[4]);
+  gEcran.createChar (FLECHE_NORD_EST, lFleches[5]);
+  gEcran.createChar (FLECHE_SUD_OUEST, lFleches[6]);
+  gEcran.createChar (FLECHE_SUD_EST, lFleches[7]);
 }
 
 /**
  * Cette fonction réactualise le capteur.
- * @param capteur
  */
-void actualiserCapteur (NineAxesMotion &capteur)
+void actualiserCapteur ()
 {
-  capteur.updateMag ();
-  capteur.updateCalibStatus ();
+  gCapteur.updateMag ();
+  gCapteur.updateCalibStatus ();
 }
 
-/**
- * Cette fonction détermine la direction du nord.
- * @param angle
+/*
+ * 
  */
-String determinerDirection (float angle)
+void procedureModeSelection ()
 {
-  if ( (angle >= 0 && angle < PI/8) || (angle > -PI/8 && angle <= -0) )
-    return "Sud";
-  else if (angle >= PI/8 && angle < 3*PI/8)
-    return "Sud-Ouest";
-  else if (angle >= 3*PI/8 && angle < 5*PI/8)
-    return "Ouest";
-  else if (angle >= 5*PI/8 && angle < 7*PI/8)
-    return "Nord-Ouest";
-  else if (angle >= 7*PI/8 && angle < 9*PI/8)
-    return "Nord";
-  else if (angle >= -3*PI/8 && angle < -PI/8)
-    return "Sud-Est";
-  else if (angle >= -5*PI/8 && angle < -3*PI/8)
-    return "Est";
-  else if (angle >= -7*PI/8 && angle < -5*PI/8)
-    return "Nord-Est";
-  else
-    return "Nord";
+  if (gMode != MODE_SELECTION) {
+    gMode = MODE_SELECTION;
+    afficherMenu ();
+  }
+
+  byte lBouton = gEcran.readButtons ();
+
+  if (lBouton && lBouton == BUTTON_UP) {
+    gEtat = ETAT_MODE;
+    gMode = MODE_STANDARD;
+  }
+  else if (lBouton && lBouton == BUTTON_DOWN) {
+    gEtat = ETAT_MODE;
+    gMode = MODE_LUDIQUE;
+  }
 }
 
-/**
- * Cette fonction détermine la flèche à utiliser pour afficher la direction
- * @param direction
+/*
+ * 
  */
-byte determinerFleche (String direction)
+void procedureModeStandard ()
 {
-  if (direction == "Sud")
-    return FLECHE_SUD;
-  else if (direction == "Sud-Ouest")
-    return FLECHE_SUD_EST;
-  else if (direction == "Ouest")
-    return FLECHE_EST;
-  else if (direction == "Nord-Ouest")
-    return FLECHE_NORD_EST;
-  else if (direction == "Nord")
-    return FLECHE_NORD;
-  else if (direction == "Nord-Est")
-    return FLECHE_NORD_OUEST;
-  else if (direction == "Est")
-    return FLECHE_OUEST;
-  else
-    return FLECHE_SUD_OUEST;
+  byte lBouton = gEcran.readButtons ();
+
+  if (lBouton & lBouton == BUTTON_SELECT)
+  {
+    gEtat = ETAT_SELECTION;
+    return;
+  }
+
+  if (millis () % DUREE_PERIODE == 0)
+  {
+    #if MODE_CAPTEUR == MANUAL
+      actualiserCapteur ();
+    #endif
+
+    float lAngle = obtenirAngle ();
+    String lDirection = obtenirDirection (lAngle);
+
+    afficherModeStandard (lAngle, lDirection);
+  }
+}
+
+/*
+ * 
+ */
+void procedureModeLudique ()
+{
+  byte lBouton = gEcran.readButtons ();
+
+  if (lBouton & lBouton == BUTTON_SELECT)
+  {
+    gEtat = ETAT_SELECTION;
+  }
+
+  if (millis () % DUREE_PERIODE == 0)
+  {
+    #if MODE_CAPTEUR == MANUAL
+      actualiserCapteur ();
+    #endif
+
+    float lAngle = obtenirAngle ();
+    String lDirection = obtenirDirection (lAngle);
+    byte lFleche = byte (obtenirFleche (lDirection));
+
+    if (!gDirection.equals (lDirection)) {
+      afficherModeLudique (lDirection, lFleche);
+      gDirection = lDirection;
+    }
+  }
 }

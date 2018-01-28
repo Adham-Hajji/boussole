@@ -1,38 +1,57 @@
+//------------------------------------------------------------------------------------//
+
+/* Bibliothèque */
+
 #include "bibliotheque.h"
 
+//------------------------------------------------------------------------------------//
 
-/* Variables */
+/* Définition des variables globales */
 
-NineAxesMotion capteur;                                 // objet associé au capteur
-Adafruit_RGBLCDShield ecran = Adafruit_RGBLCDShield (); // objet associé à l'écran ecran
-float anglePrecedent;                                   // variable stockant l'angle précédent de la boussole
-String directionPrecedente;                             // variable stockant la direction précédente de la boussole
+// Variables d'état
 
+float gAngle;      // variable stockant l'angle actuel de la boussole
+String gDirection; // variable stockant la direction actuelle de la boussole
+byte gEtat;        // variable stockant l'état du programme
+byte gMode;        // variable stockant le mode actuel du programme
+
+// Composants
+
+NineAxesMotion gCapteur;                                 // objet associé au capteur
+Adafruit_RGBLCDShield gEcran = Adafruit_RGBLCDShield (); // objet associé à l'écran
+
+//------------------------------------------------------------------------------------//
 
 /* Configuration du programme */
 
 void setup ()
 {
-  initialiserArduino (capteur, ecran);
-  initialiserCaracteres (ecran);
-  afficherDemarrage (ecran);
-  afficherMenu (ecran);
-  delay (1000);
-  ecran.clear ();
+  gEtat = ETAT_INITIALISATION;
+  
+  initialiserArduino ();
+  initialiserCaracteres ();
+  afficherDemarrage ();
+  afficherMenu ();
+
+  gEtat = ETAT_SELECTION;
+  gMode = MODE_SELECTION;
 }
 
+//------------------------------------------------------------------------------------//
 
 /* Boucle principale */
 
 void loop ()
 {
-  if (millis () % DUREE_PERIODE == 0)
+  if (gEtat == ETAT_SELECTION) {
+    procedureModeSelection ();
+  }
+  
+  else if (gEtat == ETAT_MODE)
   {
-    #if MODE_CAPTEUR == MANUAL
-      actualiserCapteur (capteur);
-    #endif
-
-    float vAngle = obtenirAngle (capteur);
-    afficherModeLudique (ecran, determinerDirection (vAngle));
+    if (gMode == MODE_STANDARD)
+      procedureModeStandard ();
+    else if (gMode == MODE_LUDIQUE)
+      procedureModeLudique ();
   }
 }
