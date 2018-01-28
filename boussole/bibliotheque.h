@@ -15,15 +15,15 @@
 
 // Variables d'état
 
-extern float gAngle;      // variable stockant l'angle actuel de la boussole
-extern String gDirection; // variable stockant la direction actuelle de la boussole
-extern byte gEtat;        // variable stockant l'état du programme
-extern byte gMode;        // variable stockant le mode actuel du programme
+extern float gAngle;
+extern String gDirection;
+extern byte gEtat;
+extern byte gMode;
 
 // Composants
 
-extern NineAxesMotion gCapteur;      // objet associé au capteur
-extern Adafruit_RGBLCDShield gEcran; // objet associé à l'écran
+extern NineAxesMotion gCapteur;
+extern Adafruit_RGBLCDShield gEcran;
 
 //------------------------------------------------------------------------------------//
 

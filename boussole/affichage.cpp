@@ -1,8 +1,7 @@
 #include "bibliotheque.h"
 
 /**
- * Cette fonction affiche du texte centrée sur l'écran
-
+ * Cette fonction affiche du texte centrée sur l'écran.
  * @param pLigne Le numéro de la ligne sur laquelle écrire le texte
  * @param pTexte Texte à écrire
  */
@@ -15,7 +14,7 @@ void afficherTexteCentre (const byte &pLigne, const String &pTexte)
 }
 
 /**
- * Cette fonction efface une ligne de l'écran
+ * Cette fonction efface une ligne de l'écran.
  * @param pLigne Le numéro de la ligne dans laquelle supprimer le texte
  */
 void clearLine (const byte &pLigne)
@@ -25,7 +24,7 @@ void clearLine (const byte &pLigne)
 }
 
 /**
- * Cette fonction affiche un écran de démarrage avec du texte
+ * Cette fonction affiche un écran de démarrage avec du texte.
  */
 void afficherDemarrage ()
 {
@@ -40,7 +39,7 @@ void afficherDemarrage ()
 }
 
 /**
- * Cette fonction affiche un menu pour sélectionner un mode
+ * Cette fonction affiche un menu pour sélectionner un mode.
  */
 void afficherMenu ()
 {
@@ -54,7 +53,7 @@ void afficherMenu ()
 }
 
 /**
- * Cette fonction affiche le mode standard de la boussole sur l'écran
+ * Cette fonction affiche le mode standard de la boussole sur l'écran.
  * @param pAngle
  * @param pDirection
  */
@@ -65,7 +64,7 @@ void afficherModeStandard (const float &pAngle, const String &pDirection)
 }
 
 /**
- * Cette fonction affiche le mode ludique sur l'écran
+ * Cette fonction affiche le mode ludique de la boussole sur l'écran.
  * @param pDirection
  * @param pFleche
  */

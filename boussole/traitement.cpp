@@ -1,7 +1,7 @@
 #include "bibliotheque.h"
 
 /*
- * Cette fonction initialise les composants de la carte Arduino
+ * Cette fonction initialise les composants de la carte Arduino.
  */
 void initialiserArduino ()
 {
@@ -17,7 +17,7 @@ void initialiserArduino ()
 }
 
 /*
- * Cette fonction initialise les caractères personnalisées (flèches indiquant les touches ainsi que les directions)
+ * Cette fonction initialise les flèches indiquant les touches ainsi que les directions.
  */
 void initialiserCaracteres ()
 {
@@ -44,7 +44,7 @@ void initialiserCaracteres ()
 }
 
 /**
- * Cette fonction réactualise le capteur.
+ * Cette fonction réactualise les données du capteur.
  */
 void actualiserCapteur ()
 {
@@ -53,7 +53,7 @@ void actualiserCapteur ()
 }
 
 /*
- * 
+ * Gestionnaire du mode séléction. 
  */
 void procedureModeSelection ()
 {
@@ -75,7 +75,7 @@ void procedureModeSelection ()
 }
 
 /*
- * 
+ * Gestionnaire du mode standard.
  */
 void procedureModeStandard ()
 {
@@ -101,7 +101,7 @@ void procedureModeStandard ()
 }
 
 /*
- * 
+ * Gestionnaire du mode ludique.
  */
 void procedureModeLudique ()
 {

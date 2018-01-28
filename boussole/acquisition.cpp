@@ -1,7 +1,8 @@
 #include "bibliotheque.h"
 
 /**
- * Cette fonction renvoi la valeur de l'angle magnétique
+ * Cette fonction renvoi la valeur de l'angle magnétique.
+ * @return angle
  */
 float obtenirAngle ()
 {
@@ -13,6 +14,7 @@ float obtenirAngle ()
 /**
  * Cette fonction renvoi la direction du nord.
  * @param pAngle
+ * @return direction
  */
 String obtenirDirection (float pAngle)
 {
@@ -37,8 +39,9 @@ String obtenirDirection (float pAngle)
 }
 
 /**
- * Cette fonction renvoi la flèche à utiliser pour afficher la direction
+ * Cette fonction renvoi la flèche à utiliser pour afficher la direction.
  * @param pDirection
+ * @return fleche
  */
 byte obtenirFleche (String pDirection)
 {

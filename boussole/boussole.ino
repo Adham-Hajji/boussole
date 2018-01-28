@@ -22,8 +22,9 @@ Adafruit_RGBLCDShield gEcran = Adafruit_RGBLCDShield (); // objet associé à l'
 
 //------------------------------------------------------------------------------------//
 
-/* Configuration du programme */
-
+/*
+ * Fonction de configuration d'Arduino.
+ */
 void setup ()
 {
   gEtat = ETAT_INITIALISATION;
@@ -39,8 +40,9 @@ void setup ()
 
 //------------------------------------------------------------------------------------//
 
-/* Boucle principale */
-
+/**
+ * Boucle d'exécution du processeur Arduino
+ */
 void loop ()
 {
   if (gEtat == ETAT_SELECTION) {
