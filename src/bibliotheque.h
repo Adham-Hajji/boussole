@@ -28,20 +28,20 @@
 /* Prototypes */
 
 // Acquisition
-float obtenirAnglePitch (NineAxesMotion &capteur);
-float obtenirAngleYawn (NineAxesMotion &capteur);
-float obtenirAngleRoll (NineAxesMotion &capteur);
+float obtenirAngle (NineAxesMotion &capteur);
 
 // Traitement
 void initialiserArduino (NineAxesMotion &capteur, Adafruit_RGBLCDShield &ecran);
 void initialiserCaracteres (Adafruit_RGBLCDShield &ecran);
-String determinerDirectionPitch (float anglePitch);
+void actualiserCapteur (NineAxesMotion &capteur);
+String determinerDirection (float angle);
+byte determinerFleche (String direction);
 
 // Affichage
 void afficherTexteCentre (Adafruit_RGBLCDShield &ecran, const byte &ligne, const String &texte);
 void afficherDemarrage (Adafruit_RGBLCDShield &ecran);
 void afficherMenu (Adafruit_RGBLCDShield &ecran);
-void afficherModeStandard (Adafruit_RGBLCDShield &ecran);
+void afficherModeLudique (Adafruit_RGBLCDShield &ecran, String direction);
 
 
 #endif

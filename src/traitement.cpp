@@ -38,70 +38,71 @@ void initialiserCaracteres (Adafruit_RGBLCDShield &ecran)
   };
 
   ecran.createChar (FLECHE_NORD, fleches[0]);
-  ecran.createChar (FLECHE_OUEST, fleches[1]);
-  ecran.createChar (FLECHE_EST, fleches[2]);
-  ecran.createChar (FLECHE_SUD, fleches[3]);
+  ecran.createChar (FLECHE_SUD, fleches[1]);
+  ecran.createChar (FLECHE_OUEST, fleches[2]);
+  ecran.createChar (FLECHE_EST, fleches[3]);
   ecran.createChar (FLECHE_NORD_OUEST, fleches[4]);
   ecran.createChar (FLECHE_NORD_EST, fleches[5]);
   ecran.createChar (FLECHE_SUD_OUEST, fleches[6]);
   ecran.createChar (FLECHE_SUD_EST, fleches[7]);
 }
 
-String determinerDirectionPitch (float anglePitch)
+/**
+ * Cette fonction réactualise le capteur.
+ * @param capteur
+ */
+void actualiserCapteur (NineAxesMotion &capteur)
 {
-  if ( (anglePitch >= 0 && anglePitch < PI/8) || (anglePitch > -PI/8 && anglePitch <= -0) )
+  capteur.updateMag ();
+  capteur.updateCalibStatus ();
+}
+
+/**
+ * Cette fonction détermine la direction du nord.
+ * @param angle
+ */
+String determinerDirection (float angle)
+{
+  if ( (angle >= 0 && angle < PI/8) || (angle > -PI/8 && angle <= -0) )
     return "Sud";
-  else if (anglePitch >= PI/8 && anglePitch < 3*PI/8)
+  else if (angle >= PI/8 && angle < 3*PI/8)
     return "Sud-Ouest";
-  else if (anglePitch >= 3*PI/8 && anglePitch < 5*PI/8)
+  else if (angle >= 3*PI/8 && angle < 5*PI/8)
     return "Ouest";
-  else if (anglePitch >= 5*PI/8 && anglePitch < 7*PI/8)
+  else if (angle >= 5*PI/8 && angle < 7*PI/8)
     return "Nord-Ouest";
-  else if (anglePitch >= 7*PI/8 && anglePitch <= 9*PI/8)
+  else if (angle >= 7*PI/8 && angle < 9*PI/8)
     return "Nord";
-  else if (anglePitch > -3*PI/8 && anglePitch <= -PI/8)
+  else if (angle >= -3*PI/8 && angle < -PI/8)
     return "Sud-Est";
-  else if (anglePitch > -5*PI/8 && anglePitch <= -3*PI/8)
+  else if (angle >= -5*PI/8 && angle < -3*PI/8)
     return "Est";
-  else if (anglePitch > -7*PI/8 && anglePitch <= -5*PI/8)
+  else if (angle >= -7*PI/8 && angle < -5*PI/8)
     return "Nord-Est";
   else
     return "Nord";
 }
 
-
-byte directionFleche (String determinetrDirectionPitch)
+/**
+ * Cette fonction détermine la flèche à utiliser pour afficher la direction
+ * @param direction
+ */
+byte determinerFleche (String direction)
 {
-  if (determinetrDirectionPitch == "Sud")
-  {
-    return FLECHE_SUD.
-  }
-  else if (determinetrDirectionPitch == "Sud-Ouest")
-  {
-    return FLECHE_SUD_OUEST;
-  }
-  else if (determinetrDirectionPitch == "Ouest")
-  {
-    return FLECHE_OUEST;
-  }
-  else if (determinetrDirectionPitch == "Nord-Ouest")
-  {
-    return FLECHE_NORD_OUEST;
-  }
-  else if (determinetrDirectionPitch == "Nord")
-  {
-    return FLECHE_NORD;
-  }
-  else if (determinetrDirectionPitch == "Nord-Est")
-  {
-    return FLECHE_NORD_EST;
-  }
-  else if (determinetrDirectionPitch == "Est")
-  {
-    return FLECHE_EST;
-  }
-  esle
-  {
+  if (direction == "Sud")
+    return FLECHE_SUD;
+  else if (direction == "Sud-Ouest")
     return FLECHE_SUD_EST;
-  }
+  else if (direction == "Ouest")
+    return FLECHE_EST;
+  else if (direction == "Nord-Ouest")
+    return FLECHE_NORD_EST;
+  else if (direction == "Nord")
+    return FLECHE_NORD;
+  else if (direction == "Nord-Est")
+    return FLECHE_NORD_OUEST;
+  else if (direction == "Est")
+    return FLECHE_OUEST;
+  else
+    return FLECHE_SUD_OUEST;
 }

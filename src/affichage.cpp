@@ -1,13 +1,5 @@
 #include "bibliotheque.h"
 
-
-/* Variables */
-
-
-
-
-/* Fonctions */
-
 /**
  * Cette fonction affiche du texte centrée sur l'écran ecran
  * @param ecran L'objet représentant l'écran LCD
@@ -51,7 +43,18 @@ void afficherMenu (Adafruit_RGBLCDShield &ecran)
   ecran.print (" Mode ludique");
 }
 
-
+/**
+ * Cette fonction affiche le mode ludique.
+ * @param ecran
+ * @param direction
+ */
+void afficherModeLudique (Adafruit_RGBLCDShield &ecran, String direction)
+{
+  ecran.clear ();
+  ecran.setCursor (0, 0);
+  ecran.write (byte (determinerFleche (direction)));
+  ecran.print (" " + direction);
+}
 
 /**
  * Cette fonction affiche le mode standard de la boussole sur l'écran
