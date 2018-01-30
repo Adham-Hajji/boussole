@@ -5,6 +5,7 @@
  */
 void initialiserArduino ()
 {
+  Serial.begin (115200);
   I2C.begin ();
   
   gCapteur.initSensor ();
@@ -21,7 +22,7 @@ void initialiserArduino ()
  */
 void initialiserCaracteres ()
 {
-  byte lFleches [8][8] =
+  const PROGMEM byte lFleches [8][8] =
   {
     {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000}, // flèche nord
     {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
@@ -57,20 +58,31 @@ void actualiserCapteur ()
  */
 void procedureModeSelection ()
 {
+  // Afficher le menu après avoir appuyé sur le bouton SELECT.
   if (gMode != MODE_SELECTION) {
     gMode = MODE_SELECTION;
     afficherMenu ();
   }
 
+  #if CONFIGURATION == PERFORMANCE
+    // On vide les variables mémoires si elles ne sont pas vides
+    if (gAngle) gAngle = 3*PI; // valeur impossible à atteindre par le capteur pour forcer l'affichage des modes
+    if (gDirection) gDirection = F ("");
+  #endif
+
+  // On récupère l'entrée utilisateur
   byte lBouton = gEcran.readButtons ();
 
+  // On détermine quel bouton a été appuyé
   if (lBouton && lBouton == BUTTON_UP) {
     gEtat = ETAT_MODE;
     gMode = MODE_STANDARD;
+    Serial.println (F ("BOUTON HAUT APPUYÉ"));
   }
   else if (lBouton && lBouton == BUTTON_DOWN) {
     gEtat = ETAT_MODE;
     gMode = MODE_LUDIQUE;
+    Serial.println (F ("BOUTON BAS APPUYÉ"));
   }
 }
 
@@ -80,7 +92,6 @@ void procedureModeSelection ()
 void procedureModeStandard ()
 {
   byte lBouton = gEcran.readButtons ();
-
   if (lBouton & lBouton == BUTTON_SELECT)
   {
     gEtat = ETAT_SELECTION;
@@ -95,7 +106,6 @@ void procedureModeStandard ()
 
     float lAngle = obtenirAngle ();
     String lDirection = obtenirDirection (lAngle);
-
     afficherModeStandard (lAngle, lDirection);
   }
 }
@@ -106,10 +116,10 @@ void procedureModeStandard ()
 void procedureModeLudique ()
 {
   byte lBouton = gEcran.readButtons ();
-
   if (lBouton & lBouton == BUTTON_SELECT)
   {
     gEtat = ETAT_SELECTION;
+    return;
   }
 
   if (millis () % DUREE_PERIODE == 0)
@@ -118,13 +128,8 @@ void procedureModeLudique ()
       actualiserCapteur ();
     #endif
 
-    float lAngle = obtenirAngle ();
-    String lDirection = obtenirDirection (lAngle);
+    String lDirection = obtenirDirection (obtenirAngle ());
     byte lFleche = byte (obtenirFleche (lDirection));
-
-    if (!gDirection.equals (lDirection)) {
-      afficherModeLudique (lDirection, lFleche);
-      gDirection = lDirection;
-    }
+    afficherModeLudique (lDirection, lFleche);
   }
 }

@@ -6,9 +6,10 @@
  */
 float obtenirAngle ()
 {
-  float magX = gCapteur.readMagX ();
-  float magY = gCapteur.readMagY ();
-  return atan2 (magY, magX);
+  return asin (
+    (gCapteur.readMagY () * gCapteur.readQuatX () - gCapteur.readMagX () * gCapteur.readQuatY ()) /
+    pow (gCapteur.readQuatX (), 2) - pow (gCapteur.readQuatY (), 2)
+  );
 }
 
 /**
@@ -19,23 +20,23 @@ float obtenirAngle ()
 String obtenirDirection (float pAngle)
 {
   if ( (pAngle >= 0 && pAngle < PI/8) || (pAngle > -PI/8 && pAngle <= -0) )
-    return "Sud";
+    return F ("Sud");
   else if (pAngle >= PI/8 && pAngle < 3*PI/8)
-    return "Sud-Ouest";
+    return F ("Sud-Ouest");
   else if (pAngle >= 3*PI/8 && pAngle < 5*PI/8)
-    return "Ouest";
+    return F ("Ouest");
   else if (pAngle >= 5*PI/8 && pAngle < 7*PI/8)
-    return "Nord-Ouest";
+    return F ("Nord-Ouest");
   else if (pAngle >= 7*PI/8 && pAngle < 9*PI/8)
-    return "Nord";
+    return F ("Nord");
   else if (pAngle >= -3*PI/8 && pAngle < -PI/8)
-    return "Sud-Est";
+    return F ("Sud-Est");
   else if (pAngle >= -5*PI/8 && pAngle < -3*PI/8)
-    return "Est";
+    return F ("Est");
   else if (pAngle >= -7*PI/8 && pAngle < -5*PI/8)
-    return "Nord-Est";
+    return F ("Nord-Est");
   else
-    return "Nord";
+    return F ("Nord");
 }
 
 /**
@@ -45,19 +46,19 @@ String obtenirDirection (float pAngle)
  */
 byte obtenirFleche (String pDirection)
 {
-  if (pDirection == "Sud")
+  if (pDirection == F ("Sud"))
     return FLECHE_SUD;
-  else if (pDirection == "Sud-Ouest")
+  else if (pDirection == F ("Sud-Ouest"))
     return FLECHE_SUD_EST;
-  else if (pDirection == "Ouest")
+  else if (pDirection == F ("Ouest"))
     return FLECHE_EST;
-  else if (pDirection == "Nord-Ouest")
+  else if (pDirection == F ("Nord-Ouest"))
     return FLECHE_NORD_EST;
-  else if (pDirection == "Nord")
+  else if (pDirection == F ("Nord"))
     return FLECHE_NORD;
-  else if (pDirection == "Nord-Est")
+  else if (pDirection == F ("Nord-Est"))
     return FLECHE_NORD_OUEST;
-  else if (pDirection == "Est")
+  else if (pDirection == F ("Est"))
     return FLECHE_OUEST;
   else
     return FLECHE_SUD_OUEST;

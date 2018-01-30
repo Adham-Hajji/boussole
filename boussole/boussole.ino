@@ -51,9 +51,7 @@ void loop ()
   
   else if (gEtat == ETAT_MODE)
   {
-    if (gMode == MODE_STANDARD)
-      procedureModeStandard ();
-    else if (gMode == MODE_LUDIQUE)
-      procedureModeLudique ();
+    if (gMode == MODE_STANDARD) procedureModeStandard ();
+    else if (gMode == MODE_LUDIQUE) procedureModeLudique ();
   }
 }

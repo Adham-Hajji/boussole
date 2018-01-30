@@ -1,29 +1,5 @@
-#ifndef BIBLIOTHEQUE_H
-#define BIBLIOTHEQUE_H
-
-//------------------------------------------------------------------------------------//
-
-/* Librairies */
-
-#include <NineAxesMotion.h>
-#include <Wire.h>
-#include <Adafruit_RGBLCDShield.h>
-
-//------------------------------------------------------------------------------------//
-
-/* Interface des variables globales */
-
-// Variables d'état
-
-extern float gAngle;
-extern String gDirection;
-extern byte gEtat;
-extern byte gMode;
-
-// Composants
-
-extern NineAxesMotion gCapteur;
-extern Adafruit_RGBLCDShield gEcran;
+#ifndef __BIBLIOTHEQUE_H__
+#define __BIBLIOTHEQUE_H__
 
 //------------------------------------------------------------------------------------//
 
@@ -32,6 +8,7 @@ extern Adafruit_RGBLCDShield gEcran;
 // Paramètres
 #define DUREE_PERIODE 100
 #define MODE_CAPTEUR MANUAL
+#define CONFIGURATION PERFORMANCE
 
 // Flèches
 #define FLECHE_NORD 0
@@ -52,6 +29,31 @@ extern Adafruit_RGBLCDShield gEcran;
 #define ETAT_INITIALISATION 0
 #define ETAT_SELECTION 1
 #define ETAT_MODE 2
+
+//------------------------------------------------------------------------------------//
+
+/* Librairies */
+
+#include <NineAxesMotion.h>
+#include <Wire.h>
+#include <Adafruit_RGBLCDShield.h>
+#include <avr/pgmspace.h>
+
+//------------------------------------------------------------------------------------//
+
+/* Interface des variables globales */
+
+// Variables d'état
+
+extern float gAngle;
+extern String gDirection;
+extern byte gEtat;
+extern byte gMode;
+
+// Composants
+
+extern NineAxesMotion gCapteur;
+extern Adafruit_RGBLCDShield gEcran;
 
 //------------------------------------------------------------------------------------//
 
