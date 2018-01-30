@@ -8,7 +8,7 @@ float obtenirAngle ()
 {
   return asin (
     (gCapteur.readMagY () * gCapteur.readQuatX () - gCapteur.readMagX () * gCapteur.readQuatY ()) /
-    pow (gCapteur.readQuatX (), 2) - pow (gCapteur.readQuatY (), 2)
+    (pow (gCapteur.readQuatX (), 2) - pow (gCapteur.readQuatY (), 2))
   );
 }
 
