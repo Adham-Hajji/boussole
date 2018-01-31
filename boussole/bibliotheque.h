@@ -7,8 +7,9 @@
 
 // Paramètres
 #define DUREE_PERIODE 100
-#define MODE_CAPTEUR MANUAL
-#define CONFIGURATION PERFORMANCE
+#define MODE_CAPTEUR MANUAL // auto, manual
+#define CONFIGURATION TEST  // standard, performance, test
+#define UNITE_ANGLE RADIAN  // degre, radian
 
 // Flèches
 #define FLECHE_NORD 0
@@ -72,6 +73,7 @@ void actualiserCapteur ();
 void procedureModeSelection ();
 void procedureModeStandard ();
 void procedureModeLudique ();
+void testCapteur ();
 
 // Affichage
 void afficherTexteCentre (const byte &pLigne, const String &pTexte);

@@ -6,11 +6,8 @@
  */
 float obtenirAngle ()
 {
-  return asin (
-    (gCapteur.readMagY () * gCapteur.readQuatX () - gCapteur.readMagX () * gCapteur.readQuatY ()) /
-    (pow (gCapteur.readQuatX (), 2) - pow (gCapteur.readQuatY (), 2))
-  );
-}
+  return gCapteur.readEulerPitch ();
+} // obtenirAngle ()
 
 /**
  * Cette fonction renvoi la direction du nord.
@@ -37,7 +34,7 @@ String obtenirDirection (float pAngle)
     return F ("Nord-Est");
   else
     return F ("Nord");
-}
+} // obtenirDirection (.)
 
 /**
  * Cette fonction renvoi la flèche à utiliser pour afficher la direction.
@@ -62,4 +59,4 @@ byte obtenirFleche (String pDirection)
     return FLECHE_OUEST;
   else
     return FLECHE_SUD_OUEST;
-}
+} // obtenirFleche (.)
