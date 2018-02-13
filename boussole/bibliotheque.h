@@ -58,23 +58,6 @@ extern Adafruit_RGBLCDShield gEcran;
 
 //------------------------------------------------------------------------------------//
 
-/* Prototypes */
-
-// Acquisition
-float obtenirAngle ();
-String obtenirDirection (float pAngle);
-byte obtenirFleche (String pDirection);
-
-// Traitement
-void initialiserArduino ();
-void initialiserCaracteres ();
-void actualiserCapteur ();
-
-void procedureModeSelection ();
-void procedureModeStandard ();
-void procedureModeLudique ();
-void testCapteur ();
-
 // Affichage
 void afficherTexteCentre (const byte &pLigne, const String &pTexte);
 void clearLine (const byte &pLigne);
