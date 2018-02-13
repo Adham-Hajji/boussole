@@ -11,7 +11,7 @@ void afficherTexteCentre (const byte &pLigne, const String &pTexte)
   clearLine (pLigne);
   gEcran.setCursor (16 / 2 - lTexteLongueur / 2, pLigne);
   gEcran.print (pTexte);
-}
+} // afficherTexteCentre (.)
 
 /**
  * Cette fonction efface une ligne de l'écran.
@@ -20,8 +20,8 @@ void afficherTexteCentre (const byte &pLigne, const String &pTexte)
 void clearLine (const byte &pLigne)
 {
   gEcran.setCursor (0, pLigne);
-  gEcran.print ("                ");
-}
+  gEcran.print (F ("                "));
+} // clearLine (.)
 
 /**
  * Cette fonction affiche un écran de démarrage avec du texte.
@@ -29,14 +29,11 @@ void clearLine (const byte &pLigne)
 void afficherDemarrage ()
 {
   gEcran.clear ();
-  afficherTexteCentre (0, "Boussole");
-  afficherTexteCentre (1, "Projet Arduino");
+  afficherTexteCentre (0, F ("Boussole"));
+  afficherTexteCentre (1, F ("Projet Arduino"));
   delay (3000);
   gEcran.clear ();
-  afficherTexteCentre (0, "Demarrage...");
-  delay (1000);
-  gEcran.clear ();
-}
+} // afficherDemarrage ()
 
 /**
  * Cette fonction affiche un menu pour sélectionner un mode.
@@ -46,11 +43,11 @@ void afficherMenu ()
   gEcran.clear ();
   gEcran.setCursor (0, 0);
   gEcran.write (byte (FLECHE_NORD));
-  gEcran.print (" Mode standard");
+  gEcran.print (F (" Mode standard"));
   gEcran.setCursor (0, 1);
   gEcran.write (byte (FLECHE_SUD));
-  gEcran.print (" Mode ludique");
-}
+  gEcran.print (F (" Mode ludique"));
+} // afficherMenu ()
 
 /**
  * Cette fonction affiche le mode standard de la boussole sur l'écran.
@@ -59,9 +56,33 @@ void afficherMenu ()
  */
 void afficherModeStandard (const float &pAngle, const String &pDirection)
 {
-  afficherTexteCentre (0, String (int (pAngle*180/PI)) + " deg");
-  afficherTexteCentre (1, pDirection);
-}
+  #if CONFIGURATION == PERFORMANCE
+    if (gAngle != pAngle) {
+      gAngle = pAngle;
+
+      #if UNITE_ANGLE == DEGRE
+        afficherTexteCentre (0, String (pAngle) + F (" deg"));
+      #elif UNITE_ANGLE == RADIAN
+        afficherTexteCentre (0, String (int (pAngle*180/PI)) + F (" deg"));
+      #endif
+    }
+    if (!gDirection.equals (pDirection)) {
+      gDirection = pDirection;
+      afficherTexteCentre (1, pDirection);
+    }
+  #elif CONFIGURATION == STANDARD
+    gAngle = pAngle;
+    gDirection = pDirection;
+
+    #if UNITE_ANGLE == DEGRE
+      afficherTexteCentre (0, String (pAngle) + F (" deg"));
+    #elif UNITE_ANGLE == RADIAN
+      afficherTexteCentre (0, String (int (pAngle*180/PI)) + F (" deg"));
+    #endif
+    
+    afficherTexteCentre (1, pDirection);
+  #endif
+} // afficherModeStandard (.)
 
 /**
  * Cette fonction affiche le mode ludique de la boussole sur l'écran.
@@ -70,8 +91,19 @@ void afficherModeStandard (const float &pAngle, const String &pDirection)
  */
 void afficherModeLudique (const String &pDirection, const byte &pFleche)
 {
-  clearLine (1);
-  afficherTexteCentre (0, pDirection);
-  gEcran.setCursor (0, 0);
-  gEcran.write (pFleche);
-}
+  #if CONFIGURATION == PERFORMANCE
+    if (!gDirection.equals (pDirection)) {
+      gDirection = pDirection;
+      clearLine (1);
+      afficherTexteCentre (0, pDirection);
+      gEcran.setCursor (0, 0);
+      gEcran.write (pFleche);
+    }
+  #elif CONFIGURATION == STANDARD
+    gDirection = pDirection;
+    clearLine (1);
+    afficherTexteCentre (0, pDirection);
+    gEcran.setCursor (0, 0);
+    gEcran.write (pFleche);
+  #endif
+} // afficherModeLudique (.)

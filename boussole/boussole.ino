@@ -51,9 +51,25 @@ void loop ()
   
   else if (gEtat == ETAT_MODE)
   {
-    if (gMode == MODE_STANDARD)
-      procedureModeStandard ();
-    else if (gMode == MODE_LUDIQUE)
-      procedureModeLudique ();
+    byte lBouton = gEcran.readButtons ();
+    if (lBouton & lBouton == BUTTON_SELECT)
+    {
+      gEtat = ETAT_SELECTION;
+      return;
+    }
+
+    if (millis () % DUREE_PERIODE == 0)
+    {
+      #if MODE_CAPTEUR == MANUAL
+        actualiserCapteur ();
+      #endif
+
+      #if CONFIGURATION == TEST
+        testCapteur ();
+      #endif
+
+      if (gMode == MODE_STANDARD) procedureModeStandard ();
+      else if (gMode == MODE_LUDIQUE) procedureModeLudique ();
+    }
   }
 }

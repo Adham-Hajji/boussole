@@ -1,29 +1,5 @@
-#ifndef BIBLIOTHEQUE_H
-#define BIBLIOTHEQUE_H
-
-//------------------------------------------------------------------------------------//
-
-/* Librairies */
-
-#include <NineAxesMotion.h>
-#include <Wire.h>
-#include <Adafruit_RGBLCDShield.h>
-
-//------------------------------------------------------------------------------------//
-
-/* Interface des variables globales */
-
-// Variables d'état
-
-extern float gAngle;
-extern String gDirection;
-extern byte gEtat;
-extern byte gMode;
-
-// Composants
-
-extern NineAxesMotion gCapteur;
-extern Adafruit_RGBLCDShield gEcran;
+#ifndef __BIBLIOTHEQUE_H__
+#define __BIBLIOTHEQUE_H__
 
 //------------------------------------------------------------------------------------//
 
@@ -31,7 +7,9 @@ extern Adafruit_RGBLCDShield gEcran;
 
 // Paramètres
 #define DUREE_PERIODE 100
-#define MODE_CAPTEUR MANUAL
+#define MODE_CAPTEUR MANUAL // auto, manual
+#define CONFIGURATION TEST  // standard, performance, test
+#define UNITE_ANGLE RADIAN  // degre, radian
 
 // Flèches
 #define FLECHE_NORD 0
@@ -55,21 +33,30 @@ extern Adafruit_RGBLCDShield gEcran;
 
 //------------------------------------------------------------------------------------//
 
-/* Prototypes */
+/* Librairies */
 
-// Acquisition
-float obtenirAngle ();
-String obtenirDirection (float pAngle);
-byte obtenirFleche (String pDirection);
+#include <NineAxesMotion.h>
+#include <Wire.h>
+#include <Adafruit_RGBLCDShield.h>
+#include <avr/pgmspace.h>
 
-// Traitement
-void initialiserArduino ();
-void initialiserCaracteres ();
-void actualiserCapteur ();
+//------------------------------------------------------------------------------------//
 
-void procedureModeSelection ();
-void procedureModeStandard ();
-void procedureModeLudique ();
+/* Interface des variables globales */
+
+// Variables d'état
+
+extern float gAngle;
+extern String gDirection;
+extern byte gEtat;
+extern byte gMode;
+
+// Composants
+
+extern NineAxesMotion gCapteur;
+extern Adafruit_RGBLCDShield gEcran;
+
+//------------------------------------------------------------------------------------//
 
 // Affichage
 void afficherTexteCentre (const byte &pLigne, const String &pTexte);

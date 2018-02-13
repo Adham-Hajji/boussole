@@ -5,6 +5,9 @@
  */
 void initialiserArduino ()
 {
+  #if CONFIGURATION == TEST
+    Serial.begin (115200);
+  #endif
   I2C.begin ();
   
   gCapteur.initSensor ();
@@ -14,14 +17,14 @@ void initialiserArduino ()
   gEcran.begin (16, 2);
   gEcran.noCursor ();
   gEcran.display ();
-}
+} // initialiserArduino ()
 
 /*
  * Cette fonction initialise les flèches indiquant les touches ainsi que les directions.
  */
 void initialiserCaracteres ()
 {
-  byte lFleches [8][8] =
+  const PROGMEM byte lFleches [8][8] =
   {
     {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000}, // flèche nord
     {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
@@ -41,7 +44,7 @@ void initialiserCaracteres ()
   gEcran.createChar (FLECHE_NORD_EST, lFleches[5]);
   gEcran.createChar (FLECHE_SUD_OUEST, lFleches[6]);
   gEcran.createChar (FLECHE_SUD_EST, lFleches[7]);
-}
+} // initialiserCaracteres ()
 
 /**
  * Cette fonction réactualise les données du capteur.
@@ -49,21 +52,31 @@ void initialiserCaracteres ()
 void actualiserCapteur ()
 {
   gCapteur.updateMag ();
+  gCapteur.updateEuler ();
   gCapteur.updateCalibStatus ();
-}
+} // actualiserCapteur ()
 
-/*
+/**
  * Gestionnaire du mode séléction. 
  */
 void procedureModeSelection ()
 {
+  // Afficher le menu après avoir appuyé sur le bouton SELECT.
   if (gMode != MODE_SELECTION) {
     gMode = MODE_SELECTION;
     afficherMenu ();
   }
 
+  #if CONFIGURATION == PERFORMANCE
+    // On vide les variables mémoires si elles ne sont pas vides
+    if (gAngle) gAngle = 3*PI; // valeur impossible à atteindre par le capteur pour forcer l'affichage des modes
+    if (gDirection) gDirection = F ("");
+  #endif
+
+  // On récupère l'entrée utilisateur
   byte lBouton = gEcran.readButtons ();
 
+  // On détermine quel bouton a été appuyé
   if (lBouton && lBouton == BUTTON_UP) {
     gEtat = ETAT_MODE;
     gMode = MODE_STANDARD;
@@ -72,59 +85,35 @@ void procedureModeSelection ()
     gEtat = ETAT_MODE;
     gMode = MODE_LUDIQUE;
   }
-}
+} // procedureModeSelection ()
 
-/*
+/**
  * Gestionnaire du mode standard.
  */
 void procedureModeStandard ()
 {
-  byte lBouton = gEcran.readButtons ();
+  float lAngle = obtenirAngle ();
+  String lDirection = obtenirDirection (lAngle);
+  afficherModeStandard (lAngle, lDirection);
+} // procedureModeStandard ()
 
-  if (lBouton & lBouton == BUTTON_SELECT)
-  {
-    gEtat = ETAT_SELECTION;
-    return;
-  }
-
-  if (millis () % DUREE_PERIODE == 0)
-  {
-    #if MODE_CAPTEUR == MANUAL
-      actualiserCapteur ();
-    #endif
-
-    float lAngle = obtenirAngle ();
-    String lDirection = obtenirDirection (lAngle);
-
-    afficherModeStandard (lAngle, lDirection);
-  }
-}
-
-/*
+/**
  * Gestionnaire du mode ludique.
  */
 void procedureModeLudique ()
 {
-  byte lBouton = gEcran.readButtons ();
+  String lDirection = obtenirDirection (obtenirAngle ());
+  byte lFleche = byte (obtenirFleche (lDirection));
+  afficherModeLudique (lDirection, lFleche);
+} // procedureModeLudique ()
 
-  if (lBouton & lBouton == BUTTON_SELECT)
-  {
-    gEtat = ETAT_SELECTION;
-  }
-
-  if (millis () % DUREE_PERIODE == 0)
-  {
-    #if MODE_CAPTEUR == MANUAL
-      actualiserCapteur ();
-    #endif
-
-    float lAngle = obtenirAngle ();
-    String lDirection = obtenirDirection (lAngle);
-    byte lFleche = byte (obtenirFleche (lDirection));
-
-    if (!gDirection.equals (lDirection)) {
-      afficherModeLudique (lDirection, lFleche);
-      gDirection = lDirection;
-    }
-  }
-}
+/**
+ * Fonction de test du capteur Arduino.
+ */
+void testCapteur ()
+{
+  Serial.println (String (gCapteur.readGyroX ()));
+  Serial.println (String (gCapteur.readGyroY ()));
+  Serial.println (String (gCapteur.readGyroZ ()));
+  Serial.println (F (""));
+} // testCapteur ()
