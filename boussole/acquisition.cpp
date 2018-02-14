@@ -2,17 +2,17 @@
 
 /**
  * Cette fonction renvoi la valeur de l'angle magnétique.
- * @return angle
+ * @return Valeur en radians de l'angle magnétique.
  */
-float obtenirAngle ()
-{
-  return gCapteur.readEulerPitch ();
-} // obtenirAngle ()
++float obtenirAngle ()
++{
++  return atan2 (gCapteur.readMagX (), gCapteur.readMagY ());
++} // obtenirAngle ()
 
 /**
  * Cette fonction renvoi la direction du nord.
- * @param pAngle
- * @return direction
+ * @param pAngle L'angle entre la direction de la boussole et le pôle nord.
+ * @return Le nom du point cardinal.
  */
 String obtenirDirection (float pAngle)
 {
@@ -38,10 +38,10 @@ String obtenirDirection (float pAngle)
 
 /**
  * Cette fonction renvoi la flèche à utiliser pour afficher la direction.
- * @param pDirection
- * @return fleche
+ * @param pDirection Le nom du point cardinal.
+ * @return Le byte représentant la flèche de direction à afficher.
  */
-byte obtenirFleche (String pDirection)
+uint8_t obtenirFleche (String pDirection)
 {
   if (pDirection == F ("Sud"))
     return FLECHE_SUD;
