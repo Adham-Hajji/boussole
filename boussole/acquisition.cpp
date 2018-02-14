@@ -4,10 +4,10 @@
  * Cette fonction renvoi la valeur de l'angle magnétique.
  * @return Valeur en radians de l'angle magnétique.
  */
-+float obtenirAngle ()
-+{
-+  return atan2 (gCapteur.readMagX (), gCapteur.readMagY ());
-+} // obtenirAngle ()
+float obtenirAngle ()
+{
+  return atan2 (gCapteur.readMagX (), gCapteur.readMagY ());
+} // obtenirAngle ()
 
 /**
  * Cette fonction renvoi la direction du nord.

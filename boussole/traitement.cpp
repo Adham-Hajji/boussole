@@ -5,7 +5,6 @@
  */
 void initialiserArduino ()
 {
-  Serial.begin (2400);
   I2C.begin ();
   
   gCapteur.initSensor ();
@@ -22,14 +21,14 @@ void initialiserArduino ()
  */
 void initialiserCaracteres ()
 {
-  gEcran.createChar (FLECHE_NORD, gFleches[0]);
-  gEcran.createChar (FLECHE_SUD, gFleches[1]);
-  gEcran.createChar (FLECHE_OUEST, gFleches[2]);
-  gEcran.createChar (FLECHE_EST, gFleches[3]);
-  gEcran.createChar (FLECHE_NORD_OUEST, gFleches[4]);
-  gEcran.createChar (FLECHE_NORD_EST, gFleches[5]);
-  gEcran.createChar (FLECHE_SUD_OUEST, gFleches[6]);
-  gEcran.createChar (FLECHE_SUD_EST, gFleches[7]);
+  gEcran.createChar (FLECHE_NORD, new uint8_t [8] {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000});       // flèche nord
+  gEcran.createChar (FLECHE_SUD, new uint8_t [8] {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100});        // flèche sud
+  gEcran.createChar (FLECHE_OUEST, new uint8_t [8] {B00000, B00100, B01100, B11111, B01100, B00100, B00000, B00000});      // flèche ouest
+  gEcran.createChar (FLECHE_EST, new uint8_t [8] {B00000, B00100, B00110, B11111, B00110, B00100, B00000, B00000});        // flèche est
+  gEcran.createChar (FLECHE_NORD_OUEST, new uint8_t [8] {B11100, B11000, B10100, B00010, B00001, B00000, B00000, B00000}); // flèche du nord-ouest
+  gEcran.createChar (FLECHE_NORD_EST, new uint8_t [8] {B00111, B00011, B00101, B01000, B10000, B00000, B00000, B00000});   // flèche du nord-est
+  gEcran.createChar (FLECHE_SUD_OUEST, new uint8_t [8] {B00000, B00000, B00000, B00001, B00010, B10100, B11000, B11100});  // flèche du sud-ouest
+  gEcran.createChar (FLECHE_SUD_EST, new uint8_t [8] {B00000, B00000, B00000, B10000, B01000, B00101, B00011, B00111});    // flèche du sud-est
 } // initialiserCaracteres ()
 
 /**
@@ -38,6 +37,7 @@ void initialiserCaracteres ()
 void actualiserCapteur ()
 {
   gCapteur.updateCalibStatus ();
+  gCapteur.updateQuat ();
   gCapteur.updateMag ();
 } // actualiserCapteur ()
 

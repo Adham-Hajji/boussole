@@ -56,19 +56,6 @@ extern uint8_t gMode;
 extern NineAxesMotion gCapteur;
 extern Adafruit_RGBLCDShield gEcran;
 
-// Flèches directionnelles
-
-static const uint8_t PROGMEM gFleches [8][8] = {
-  {B00100, B01110, B11111, B00100, B00100, B00100, B00000, B00000}, // flèche nord
-  {B00000, B00000, B00100, B00100, B00100, B11111, B01110, B00100}, // flèche sud
-  {B00000, B00100, B01100, B11111, B01100, B00100, B00000, B00000}, // flèche ouest
-  {B00000, B00100, B00110, B11111, B00110, B00100, B00000, B00000}, // flèche est
-  {B11100, B11000, B10100, B00010, B00001, B00000, B00000, B00000}, // flèche du nord-ouest
-  {B00111, B00011, B00101, B01000, B10000, B00000, B00000, B00000}, // flèche du nord-est
-  {B00000, B00000, B00000, B00001, B00010, B10100, B11000, B11100}, // flèche du sud-ouest
-  {B00000, B00000, B00000, B10000, B01000, B00101, B00011, B00111}  // flèche du sud-est
-};
-
 //------------------------------------------------------------------------------------//
 
 /* Prototypes */
