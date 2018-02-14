@@ -5,7 +5,6 @@
  */
 void initialiserArduino ()
 {
-  Serial.begin (2400);
   I2C.begin ();
   
   gCapteur.initSensor ();
