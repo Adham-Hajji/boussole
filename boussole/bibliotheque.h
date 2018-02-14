@@ -6,10 +6,10 @@
 /* Macro constantes */
 
 // Paramètres
-#define DUREE_PERIODE 100
-#define MODE_CAPTEUR MANUAL // auto, manual
-#define CONFIGURATION TEST  // standard, performance, test
-#define UNITE_ANGLE RADIAN  // degre, radian
+#define DUREE_PERIODE 20
+#define MODE_CAPTEUR MANUAL    // mode d'actualisation : manuel ou automatique
+#define CONFIGURATION STANDARD // configuration du programme : standard ou test
+#define UNITE_ANGLE DEGRE      // unité d'affichage : en degrés ou en radians
 
 // Flèches
 #define FLECHE_NORD 0
@@ -42,14 +42,14 @@
 
 //------------------------------------------------------------------------------------//
 
-/* Interface des variables globales */
+/* Variables globales */
 
 // Variables d'état
 
 extern float gAngle;
 extern String gDirection;
-extern byte gEtat;
-extern byte gMode;
+extern uint8_t gEtat;
+extern uint8_t gMode;
 
 // Composants
 
@@ -58,13 +58,27 @@ extern Adafruit_RGBLCDShield gEcran;
 
 //------------------------------------------------------------------------------------//
 
-// Affichage
-void afficherTexteCentre (const byte &pLigne, const String &pTexte);
-void clearLine (const byte &pLigne);
+/* Prototypes */
 
+// Acquisition
+float obtenirAngle ();
+String obtenirDirection (float pAngle);
+uint8_t obtenirFleche (String pDirection);
+
+// Traitement
+void initialiserArduino ();
+void initialiserCaracteres ();
+void actualiserCapteur ();
+void procedureModeSelection ();
+void procedureModeStandard ();
+void procedureModeLudique ();
+
+// Affichage
+void afficherTexteCentre (const uint8_t &pLigne, const String &pTexte);
+void clearLine (const uint8_t &pLigne);
 void afficherDemarrage ();
 void afficherMenu ();
 void afficherModeStandard (const float &pAngle, const String &pDirection);
-void afficherModeLudique (const String &pDirection, const byte &pFleche);
+void afficherModeLudique (const String &pDirection, const uint8_t &pFleche);
 
 #endif
