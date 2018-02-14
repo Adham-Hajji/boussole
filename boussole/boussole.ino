@@ -12,8 +12,8 @@
 
 float gAngle;      // variable stockant l'angle actuel de la boussole
 String gDirection; // variable stockant la direction actuelle de la boussole
-byte gEtat;        // variable stockant l'état du programme
-byte gMode;        // variable stockant le mode actuel du programme
+uint8_t gEtat;        // variable stockant l'état du programme
+uint8_t gMode;        // variable stockant le mode actuel du programme
 
 // Composants
 
@@ -45,14 +45,11 @@ void setup ()
  */
 void loop ()
 {
-  if (gEtat == ETAT_SELECTION) {
-    procedureModeSelection ();
-  }
-  
+  if (gEtat == ETAT_SELECTION) procedureModeSelection ();
   else if (gEtat == ETAT_MODE)
   {
-    byte lBouton = gEcran.readButtons ();
-    if (lBouton & lBouton == BUTTON_SELECT)
+    uint8_t vBouton = gEcran.readButtons ();
+    if (vBouton && vBouton == BUTTON_SELECT)
     {
       gEtat = ETAT_SELECTION;
       return;
@@ -62,10 +59,6 @@ void loop ()
     {
       #if MODE_CAPTEUR == MANUAL
         actualiserCapteur ();
-      #endif
-
-      #if CONFIGURATION == TEST
-        testCapteur ();
       #endif
 
       if (gMode == MODE_STANDARD) procedureModeStandard ();

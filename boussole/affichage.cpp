@@ -2,22 +2,22 @@
 
 /**
  * Cette fonction affiche du texte centrée sur l'écran.
- * @param pLigne Le numéro de la ligne sur laquelle écrire le texte
- * @param pTexte Texte à écrire
+ * @param pLigne Le numéro de la ligne sur laquelle écrire le texte.
+ * @param pTexte Le texte à afficher.
  */
-void afficherTexteCentre (const byte &pLigne, const String &pTexte)
+void afficherTexteCentre (const uint8_t &pLigne, const String &pTexte)
 {
-  byte lTexteLongueur = pTexte.length ();
+  uint8_t vTexteLongueur = pTexte.length ();
   clearLine (pLigne);
-  gEcran.setCursor (16 / 2 - lTexteLongueur / 2, pLigne);
+  gEcran.setCursor (16 / 2 - vTexteLongueur / 2, pLigne);
   gEcran.print (pTexte);
 } // afficherTexteCentre (.)
 
 /**
  * Cette fonction efface une ligne de l'écran.
- * @param pLigne Le numéro de la ligne dans laquelle supprimer le texte
+ * @param pLigne Le numéro de la ligne dans laquelle supprimer le texte.
  */
-void clearLine (const byte &pLigne)
+void clearLine (const uint8_t &pLigne)
 {
   gEcran.setCursor (0, pLigne);
   gEcran.print (F ("                "));
@@ -51,59 +51,37 @@ void afficherMenu ()
 
 /**
  * Cette fonction affiche le mode standard de la boussole sur l'écran.
- * @param pAngle
- * @param pDirection
+ * @param pAngle L'angle entre la direction de la boussole et le pôle nord.
+ * @param pDirection Le nom du point cardinal.
  */
 void afficherModeStandard (const float &pAngle, const String &pDirection)
 {
-  #if CONFIGURATION == PERFORMANCE
-    if (gAngle != pAngle) {
-      gAngle = pAngle;
-
-      #if UNITE_ANGLE == DEGRE
-        afficherTexteCentre (0, String (pAngle) + F (" deg"));
-      #elif UNITE_ANGLE == RADIAN
-        afficherTexteCentre (0, String (int (pAngle*180/PI)) + F (" deg"));
-      #endif
-    }
-    if (!gDirection.equals (pDirection)) {
-      gDirection = pDirection;
-      afficherTexteCentre (1, pDirection);
-    }
-  #elif CONFIGURATION == STANDARD
+  if (gAngle != pAngle) {
     gAngle = pAngle;
-    gDirection = pDirection;
-
     #if UNITE_ANGLE == DEGRE
-      afficherTexteCentre (0, String (pAngle) + F (" deg"));
-    #elif UNITE_ANGLE == RADIAN
       afficherTexteCentre (0, String (int (pAngle*180/PI)) + F (" deg"));
+    #elif UNITE_ANGLE == RADIAN
+      afficherTexteCentre (0, String (pAngle) + F (" rad"));
     #endif
-    
+  }
+  if (!gDirection.equals (pDirection)) {
+    gDirection = pDirection;
     afficherTexteCentre (1, pDirection);
-  #endif
+  }
 } // afficherModeStandard (.)
 
 /**
  * Cette fonction affiche le mode ludique de la boussole sur l'écran.
- * @param pDirection
- * @param pFleche
+ * @param pDirection Le nom du point cardinal.
+ * @param pFleche Le byte représentant la flèche de direction à afficher.
  */
-void afficherModeLudique (const String &pDirection, const byte &pFleche)
+void afficherModeLudique (const String &pDirection, const uint8_t &pFleche)
 {
-  #if CONFIGURATION == PERFORMANCE
-    if (!gDirection.equals (pDirection)) {
-      gDirection = pDirection;
-      clearLine (1);
-      afficherTexteCentre (0, pDirection);
-      gEcran.setCursor (0, 0);
-      gEcran.write (pFleche);
-    }
-  #elif CONFIGURATION == STANDARD
+  if (!gDirection.equals (pDirection)) {
     gDirection = pDirection;
     clearLine (1);
     afficherTexteCentre (0, pDirection);
     gEcran.setCursor (0, 0);
     gEcran.write (pFleche);
-  #endif
+  }
 } // afficherModeLudique (.)
