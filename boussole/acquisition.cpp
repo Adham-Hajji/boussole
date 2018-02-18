@@ -14,7 +14,7 @@ float obtenirAngle ()
  * @param pAngle L'angle entre la direction de la boussole et le pôle nord.
  * @return Le nom du point cardinal.
  */
-String obtenirDirection (float pAngle)
+String obtenirDirection (const float &pAngle)
 {
   if ( (pAngle >= 0 && pAngle < PI/8) || (pAngle > -PI/8 && pAngle <= -0) )
     return F ("Sud");
@@ -41,7 +41,7 @@ String obtenirDirection (float pAngle)
  * @param pDirection Le nom du point cardinal.
  * @return Le byte représentant la flèche de direction à afficher.
  */
-uint8_t obtenirFleche (String pDirection)
+uint8_t obtenirFleche (const String &pDirection)
 {
   if (pDirection == F ("Sud"))
     return FLECHE_SUD;
