@@ -62,8 +62,8 @@ extern Adafruit_RGBLCDShield gEcran;
 
 // Acquisition
 float obtenirAngle ();
-String obtenirDirection (float pAngle);
-uint8_t obtenirFleche (String pDirection);
+String obtenirDirection (const float &pAngle);
+uint8_t obtenirFleche (const String &pDirection);
 
 // Traitement
 void initialiserArduino ();
